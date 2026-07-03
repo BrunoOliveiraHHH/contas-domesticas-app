@@ -3,7 +3,8 @@ package br.com.contasdomesticas.app.di
 import android.content.Context
 import androidx.room.Room
 import br.com.contasdomesticas.app.data.local.AppDatabase
-import br.com.contasdomesticas.app.data.local.dao.ContaDao
+import br.com.contasdomesticas.app.data.local.dao.AuditoriaDao
+import br.com.contasdomesticas.app.data.local.dao.UsuarioDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,8 +26,13 @@ object DatabaseModule {
             context,
             AppDatabase::class.java,
             AppDatabase.DATABASE_NAME
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
 
     @Provides
-    fun provideContaDao(database: AppDatabase): ContaDao = database.contaDao()
+    fun provideUsuarioDao(database: AppDatabase): UsuarioDao = database.usuarioDao()
+
+    @Provides
+    fun provideAuditoriaDao(database: AppDatabase): AuditoriaDao = database.auditoriaDao()
 }
