@@ -14,6 +14,11 @@ Aplicativo Android do projeto **Contas Domésticas**.
 - Retrofit + OkHttp + Moshi (consumo da API)
 - Room (banco de dados local — `contasdomesticas.db`)
 - Hilt (injeção de dependência)
+- Jetpack Compose (infra habilitada — Material 3, Navigation Compose)
+- Segurança: security-crypto (EncryptedSharedPreferences) + DataStore; network security config (cleartext off)
+- Splash Screen API + core library desugaring (java.time no minSdk 24)
+- LeakCanary (debug) · Kover (cobertura) · mockk/turbine/truth (testes)
+- Release com R8/minify + shrinkResources
 
 ## Estrutura
 
