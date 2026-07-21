@@ -7,6 +7,7 @@ import br.com.contasdomesticas.app.data.remote.AuthInterceptor
 import br.com.contasdomesticas.app.data.remote.CarteiraApi
 import br.com.contasdomesticas.app.data.remote.CategoriaApi
 import br.com.contasdomesticas.app.data.remote.CompraApi
+import br.com.contasdomesticas.app.data.remote.ConfiguracaoApi
 import br.com.contasdomesticas.app.data.remote.DespesaApi
 import br.com.contasdomesticas.app.data.remote.FormaPagamentoApi
 import br.com.contasdomesticas.app.data.remote.InvestimentoApi
@@ -129,4 +130,9 @@ object NetworkModule {
     @Singleton
     fun provideCompraApi(retrofit: Retrofit): CompraApi =
         retrofit.create(CompraApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideConfiguracaoApi(retrofit: Retrofit): ConfiguracaoApi =
+        retrofit.create(ConfiguracaoApi::class.java)
 }

@@ -19,6 +19,7 @@ import br.com.contasdomesticas.app.ui.carteira.CarteiraScreen
 import br.com.contasdomesticas.app.ui.home.HomeScreen
 import br.com.contasdomesticas.app.ui.compra.ItemCompraScreen
 import br.com.contasdomesticas.app.ui.compra.ListaCompraScreen
+import br.com.contasdomesticas.app.ui.configuracao.ConfiguracaoScreen
 import br.com.contasdomesticas.app.ui.investimento.InvestimentoScreen
 import br.com.contasdomesticas.app.ui.lancamento.DespesaScreen
 import br.com.contasdomesticas.app.ui.lancamento.ReceitaScreen
@@ -71,5 +72,6 @@ fun AppRoot(mainViewModel: MainViewModel = hiltViewModel()) {
             )
         }
         composable("listas_compra/{listaId}") { ItemCompraScreen(onVoltar = voltar) }
+        composable("configuracao") { ConfiguracaoScreen(onVoltar = voltar) }
     }
 }
