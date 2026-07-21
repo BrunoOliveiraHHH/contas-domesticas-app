@@ -10,6 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.com.contasdomesticas.app.ui.carteira.CarteiraScreen
 import br.com.contasdomesticas.app.ui.home.HomeScreen
 import br.com.contasdomesticas.app.ui.login.LoginScreen
 
@@ -35,13 +36,19 @@ fun AppRoot(mainViewModel: MainViewModel = hiltViewModel()) {
             })
         }
         composable("home") {
-            HomeScreen(onSair = {
-                mainViewModel.sair {
-                    navController.navigate("login") {
-                        popUpTo("home") { inclusive = true }
+            HomeScreen(
+                onCarteiras = { navController.navigate("carteiras") },
+                onSair = {
+                    mainViewModel.sair {
+                        navController.navigate("login") {
+                            popUpTo("home") { inclusive = true }
+                        }
                     }
                 }
-            })
+            )
+        }
+        composable("carteiras") {
+            CarteiraScreen(onVoltar = { navController.popBackStack() })
         }
     }
 }

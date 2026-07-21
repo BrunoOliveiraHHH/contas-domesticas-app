@@ -4,6 +4,7 @@ import br.com.contasdomesticas.app.BuildConfig
 import br.com.contasdomesticas.app.data.remote.AuditoriaInterceptor
 import br.com.contasdomesticas.app.data.remote.AuthApi
 import br.com.contasdomesticas.app.data.remote.AuthInterceptor
+import br.com.contasdomesticas.app.data.remote.CarteiraApi
 import br.com.contasdomesticas.app.data.remote.UsuarioApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -69,4 +70,9 @@ object NetworkModule {
     @Singleton
     fun provideAuthApi(retrofit: Retrofit): AuthApi =
         retrofit.create(AuthApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCarteiraApi(retrofit: Retrofit): CarteiraApi =
+        retrofit.create(CarteiraApi::class.java)
 }

@@ -13,7 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun HomeScreen(onSair: () -> Unit) {
+fun HomeScreen(
+    onCarteiras: () -> Unit,
+    onSair: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -22,11 +25,7 @@ fun HomeScreen(onSair: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text("Contas Domesticas", style = MaterialTheme.typography.headlineSmall)
-        Text(
-            "Autenticado",
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(top = 8.dp)
-        )
-        Button(onClick = onSair, modifier = Modifier.padding(top = 24.dp)) { Text("Sair") }
+        Button(onClick = onCarteiras, modifier = Modifier.padding(top = 24.dp)) { Text("Carteiras") }
+        Button(onClick = onSair, modifier = Modifier.padding(top = 8.dp)) { Text("Sair") }
     }
 }
