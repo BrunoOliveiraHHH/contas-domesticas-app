@@ -1,5 +1,6 @@
 package br.com.contasdomesticas.app.data.remote
 
+import br.com.contasdomesticas.app.data.remote.dto.ImpostoIrDto
 import br.com.contasdomesticas.app.data.remote.dto.ParametroDto
 import br.com.contasdomesticas.app.data.remote.dto.ParametroRequestDto
 import br.com.contasdomesticas.app.data.remote.dto.PreferenciaDto
@@ -25,6 +26,9 @@ interface ConfiguracaoApi {
 
     @DELETE("api/v1/parametros/{id}")
     suspend fun removerParametro(@Path("id") id: Long)
+
+    @GET("api/v1/parametros/imposto-ir")
+    suspend fun impostoIr(@Query("dias") dias: Int): ImpostoIrDto
 
     @GET("api/v1/preferencias/{chave}")
     suspend fun resolverPreferencia(

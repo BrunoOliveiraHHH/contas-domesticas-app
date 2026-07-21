@@ -26,3 +26,9 @@ data class PreferenciaRequestDto(
     val valor: String,
     val usuarioId: Long? = null
 )
+
+data class ImpostoIrDto(
+    val dias: Int,
+    val chave: String,
+    val aliquota: Double
+)

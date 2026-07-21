@@ -25,6 +25,7 @@ fun HomeScreen(
         "Despesas" to "despesas",
         "Investimentos" to "investimentos",
         "Listas de compra" to "listas_compra",
+        "Calculadoras" to "calculadoras",
         "Configuracao" to "configuracao",
         "Carteiras" to "carteiras",
         "Categorias" to "categorias",
