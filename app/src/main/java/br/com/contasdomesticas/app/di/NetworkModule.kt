@@ -13,7 +13,9 @@ import br.com.contasdomesticas.app.data.remote.FormaPagamentoApi
 import br.com.contasdomesticas.app.data.remote.InvestimentoApi
 import br.com.contasdomesticas.app.data.remote.MercadoApi
 import br.com.contasdomesticas.app.data.remote.ProdutoApi
+import br.com.contasdomesticas.app.data.remote.RateioApi
 import br.com.contasdomesticas.app.data.remote.ReceitaApi
+import br.com.contasdomesticas.app.data.remote.RecorrenciaApi
 import br.com.contasdomesticas.app.data.remote.RelatorioApi
 import br.com.contasdomesticas.app.data.remote.UnidadeMedidaApi
 import br.com.contasdomesticas.app.data.remote.UsuarioApi
@@ -141,4 +143,14 @@ object NetworkModule {
     @Singleton
     fun provideRelatorioApi(retrofit: Retrofit): RelatorioApi =
         retrofit.create(RelatorioApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRecorrenciaApi(retrofit: Retrofit): RecorrenciaApi =
+        retrofit.create(RecorrenciaApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRateioApi(retrofit: Retrofit): RateioApi =
+        retrofit.create(RateioApi::class.java)
 }

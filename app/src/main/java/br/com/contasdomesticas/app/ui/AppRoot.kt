@@ -25,6 +25,9 @@ import br.com.contasdomesticas.app.ui.dashboard.DashboardScreen
 import br.com.contasdomesticas.app.ui.investimento.InvestimentoScreen
 import br.com.contasdomesticas.app.ui.lancamento.DespesaScreen
 import br.com.contasdomesticas.app.ui.lancamento.ReceitaScreen
+import br.com.contasdomesticas.app.ui.parcelamento.ParcelamentoScreen
+import br.com.contasdomesticas.app.ui.rateio.RateioScreen
+import br.com.contasdomesticas.app.ui.recorrencia.RecorrenciaScreen
 import br.com.contasdomesticas.app.ui.login.LoginScreen
 
 @Composable
@@ -77,5 +80,8 @@ fun AppRoot(mainViewModel: MainViewModel = hiltViewModel()) {
         composable("configuracao") { ConfiguracaoScreen(onVoltar = voltar) }
         composable("calculadoras") { CalculadoraScreen(onVoltar = voltar) }
         composable("dashboard") { DashboardScreen(onVoltar = voltar) }
+        composable("recorrencias") { RecorrenciaScreen(onVoltar = voltar) }
+        composable("parcelamento") { ParcelamentoScreen(onVoltar = voltar) }
+        composable("rateio") { RateioScreen(onVoltar = voltar) }
     }
 }
