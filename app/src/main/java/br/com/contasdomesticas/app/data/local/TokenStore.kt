@@ -38,13 +38,25 @@ class TokenStore @Inject constructor(
 
     suspend fun refreshToken(): String? = context.dataStore.data.map { it[REFRESH] }.first()
 
+    suspend fun lastSyncMercados(): String? =
+        context.dataStore.data.map { it[LAST_SYNC_MERCADOS] }.first()
+
+    suspend fun salvarLastSync(carimbo: String) {
+        context.dataStore.edit { it[LAST_SYNC_MERCADOS] = carimbo }
+    }
+
     suspend fun limpar() {
         accessToken = null
-        context.dataStore.edit { it.clear() }
+        // Preserva o carimbo de sincronizacao ao sair (apenas remove tokens).
+        context.dataStore.edit { prefs ->
+            prefs.remove(ACCESS)
+            prefs.remove(REFRESH)
+        }
     }
 
     private companion object {
         val ACCESS = stringPreferencesKey("access_token")
         val REFRESH = stringPreferencesKey("refresh_token")
+        val LAST_SYNC_MERCADOS = stringPreferencesKey("last_sync_mercados")
     }
 }

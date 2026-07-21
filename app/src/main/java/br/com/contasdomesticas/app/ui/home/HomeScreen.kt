@@ -31,6 +31,7 @@ fun HomeScreen(
         "Listas de compra" to "listas_compra",
         "Calculadoras" to "calculadoras",
         "Configuracao" to "configuracao",
+        "Sincronizacao" to "sincronizacao",
         "Carteiras" to "carteiras",
         "Categorias" to "categorias",
         "Formas de pagamento" to "formas_pagamento",

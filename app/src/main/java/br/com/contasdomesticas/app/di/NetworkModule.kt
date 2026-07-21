@@ -17,6 +17,7 @@ import br.com.contasdomesticas.app.data.remote.RateioApi
 import br.com.contasdomesticas.app.data.remote.ReceitaApi
 import br.com.contasdomesticas.app.data.remote.RecorrenciaApi
 import br.com.contasdomesticas.app.data.remote.RelatorioApi
+import br.com.contasdomesticas.app.data.remote.SyncApi
 import br.com.contasdomesticas.app.data.remote.UnidadeMedidaApi
 import br.com.contasdomesticas.app.data.remote.UsuarioApi
 import com.squareup.moshi.Moshi
@@ -153,4 +154,9 @@ object NetworkModule {
     @Singleton
     fun provideRateioApi(retrofit: Retrofit): RateioApi =
         retrofit.create(RateioApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSyncApi(retrofit: Retrofit): SyncApi =
+        retrofit.create(SyncApi::class.java)
 }

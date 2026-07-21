@@ -28,6 +28,7 @@ import br.com.contasdomesticas.app.ui.lancamento.ReceitaScreen
 import br.com.contasdomesticas.app.ui.parcelamento.ParcelamentoScreen
 import br.com.contasdomesticas.app.ui.rateio.RateioScreen
 import br.com.contasdomesticas.app.ui.recorrencia.RecorrenciaScreen
+import br.com.contasdomesticas.app.ui.sincronizacao.SincronizacaoScreen
 import br.com.contasdomesticas.app.ui.login.LoginScreen
 
 @Composable
@@ -83,5 +84,6 @@ fun AppRoot(mainViewModel: MainViewModel = hiltViewModel()) {
         composable("recorrencias") { RecorrenciaScreen(onVoltar = voltar) }
         composable("parcelamento") { ParcelamentoScreen(onVoltar = voltar) }
         composable("rateio") { RateioScreen(onVoltar = voltar) }
+        composable("sincronizacao") { SincronizacaoScreen(onVoltar = voltar) }
     }
 }
