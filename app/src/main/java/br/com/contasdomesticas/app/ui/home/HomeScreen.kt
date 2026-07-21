@@ -23,6 +23,7 @@ fun HomeScreen(
     val itens = listOf(
         "Receitas" to "receitas",
         "Despesas" to "despesas",
+        "Investimentos" to "investimentos",
         "Carteiras" to "carteiras",
         "Categorias" to "categorias",
         "Formas de pagamento" to "formas_pagamento",

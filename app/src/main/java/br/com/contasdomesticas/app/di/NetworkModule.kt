@@ -8,6 +8,7 @@ import br.com.contasdomesticas.app.data.remote.CarteiraApi
 import br.com.contasdomesticas.app.data.remote.CategoriaApi
 import br.com.contasdomesticas.app.data.remote.DespesaApi
 import br.com.contasdomesticas.app.data.remote.FormaPagamentoApi
+import br.com.contasdomesticas.app.data.remote.InvestimentoApi
 import br.com.contasdomesticas.app.data.remote.MercadoApi
 import br.com.contasdomesticas.app.data.remote.ProdutoApi
 import br.com.contasdomesticas.app.data.remote.ReceitaApi
@@ -117,4 +118,9 @@ object NetworkModule {
     @Singleton
     fun provideDespesaApi(retrofit: Retrofit): DespesaApi =
         retrofit.create(DespesaApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideInvestimentoApi(retrofit: Retrofit): InvestimentoApi =
+        retrofit.create(InvestimentoApi::class.java)
 }

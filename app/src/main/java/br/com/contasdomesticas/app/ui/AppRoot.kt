@@ -17,6 +17,7 @@ import br.com.contasdomesticas.app.ui.cadastro.ProdutoScreen
 import br.com.contasdomesticas.app.ui.cadastro.UnidadeMedidaScreen
 import br.com.contasdomesticas.app.ui.carteira.CarteiraScreen
 import br.com.contasdomesticas.app.ui.home.HomeScreen
+import br.com.contasdomesticas.app.ui.investimento.InvestimentoScreen
 import br.com.contasdomesticas.app.ui.lancamento.DespesaScreen
 import br.com.contasdomesticas.app.ui.lancamento.ReceitaScreen
 import br.com.contasdomesticas.app.ui.login.LoginScreen
@@ -60,5 +61,6 @@ fun AppRoot(mainViewModel: MainViewModel = hiltViewModel()) {
         composable("produtos") { ProdutoScreen(onVoltar = voltar) }
         composable("receitas") { ReceitaScreen(onVoltar = voltar) }
         composable("despesas") { DespesaScreen(onVoltar = voltar) }
+        composable("investimentos") { InvestimentoScreen(onVoltar = voltar) }
     }
 }
