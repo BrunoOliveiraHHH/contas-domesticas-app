@@ -29,7 +29,7 @@ room = "2.6.1"
 securityCrypto = "1.1.0-alpha06"
 datastore = "1.1.1"
 splashscreen = "1.0.1"
-desugar = "2.1.2"
+desugar = "2.1.5"
 
 leakcanary = "2.14"
 
