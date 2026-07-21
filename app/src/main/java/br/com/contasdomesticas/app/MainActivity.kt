@@ -1,12 +1,20 @@
 package br.com.contasdomesticas.app
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import br.com.contasdomesticas.app.ui.AppRoot
+import br.com.contasdomesticas.app.ui.theme.AppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
-
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContent {
+            AppTheme {
+                AppRoot()
+            }
+        }
     }
 }

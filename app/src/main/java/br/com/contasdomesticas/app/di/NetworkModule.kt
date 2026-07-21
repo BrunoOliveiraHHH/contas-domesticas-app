@@ -2,6 +2,8 @@ package br.com.contasdomesticas.app.di
 
 import br.com.contasdomesticas.app.BuildConfig
 import br.com.contasdomesticas.app.data.remote.AuditoriaInterceptor
+import br.com.contasdomesticas.app.data.remote.AuthApi
+import br.com.contasdomesticas.app.data.remote.AuthInterceptor
 import br.com.contasdomesticas.app.data.remote.UsuarioApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -31,7 +33,10 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(auditoriaInterceptor: AuditoriaInterceptor): OkHttpClient {
+    fun provideOkHttpClient(
+        authInterceptor: AuthInterceptor,
+        auditoriaInterceptor: AuditoriaInterceptor
+    ): OkHttpClient {
         val logging = HttpLoggingInterceptor().apply {
             level = if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor.Level.BODY
@@ -40,6 +45,7 @@ object NetworkModule {
             }
         }
         return OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
             .addInterceptor(auditoriaInterceptor)
             .addInterceptor(logging)
             .build()
@@ -58,4 +64,9 @@ object NetworkModule {
     @Singleton
     fun provideUsuarioApi(retrofit: Retrofit): UsuarioApi =
         retrofit.create(UsuarioApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAuthApi(retrofit: Retrofit): AuthApi =
+        retrofit.create(AuthApi::class.java)
 }

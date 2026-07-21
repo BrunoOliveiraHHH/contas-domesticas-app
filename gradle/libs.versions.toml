@@ -3,6 +3,7 @@ agp = "8.5.2"
 kotlin = "1.9.24"
 ksp = "1.9.24-1.0.20"
 hilt = "2.51.1"
+hiltNavigationCompose = "1.2.0"
 kover = "0.8.3"
 composeCompiler = "1.5.14"
 composeBom = "2024.09.03"
@@ -71,6 +72,7 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 
 # Seguranca / armazenamento
 androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
