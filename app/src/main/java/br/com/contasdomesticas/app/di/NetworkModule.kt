@@ -5,6 +5,11 @@ import br.com.contasdomesticas.app.data.remote.AuditoriaInterceptor
 import br.com.contasdomesticas.app.data.remote.AuthApi
 import br.com.contasdomesticas.app.data.remote.AuthInterceptor
 import br.com.contasdomesticas.app.data.remote.CarteiraApi
+import br.com.contasdomesticas.app.data.remote.CategoriaApi
+import br.com.contasdomesticas.app.data.remote.FormaPagamentoApi
+import br.com.contasdomesticas.app.data.remote.MercadoApi
+import br.com.contasdomesticas.app.data.remote.ProdutoApi
+import br.com.contasdomesticas.app.data.remote.UnidadeMedidaApi
 import br.com.contasdomesticas.app.data.remote.UsuarioApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -75,4 +80,29 @@ object NetworkModule {
     @Singleton
     fun provideCarteiraApi(retrofit: Retrofit): CarteiraApi =
         retrofit.create(CarteiraApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCategoriaApi(retrofit: Retrofit): CategoriaApi =
+        retrofit.create(CategoriaApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideFormaPagamentoApi(retrofit: Retrofit): FormaPagamentoApi =
+        retrofit.create(FormaPagamentoApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMercadoApi(retrofit: Retrofit): MercadoApi =
+        retrofit.create(MercadoApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUnidadeMedidaApi(retrofit: Retrofit): UnidadeMedidaApi =
+        retrofit.create(UnidadeMedidaApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideProdutoApi(retrofit: Retrofit): ProdutoApi =
+        retrofit.create(ProdutoApi::class.java)
 }

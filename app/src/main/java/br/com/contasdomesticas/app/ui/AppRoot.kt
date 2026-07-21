@@ -10,6 +10,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.com.contasdomesticas.app.ui.cadastro.CategoriaScreen
+import br.com.contasdomesticas.app.ui.cadastro.FormaPagamentoScreen
+import br.com.contasdomesticas.app.ui.cadastro.MercadoScreen
+import br.com.contasdomesticas.app.ui.cadastro.ProdutoScreen
+import br.com.contasdomesticas.app.ui.cadastro.UnidadeMedidaScreen
 import br.com.contasdomesticas.app.ui.carteira.CarteiraScreen
 import br.com.contasdomesticas.app.ui.home.HomeScreen
 import br.com.contasdomesticas.app.ui.login.LoginScreen
@@ -24,31 +29,32 @@ fun AppRoot(mainViewModel: MainViewModel = hiltViewModel()) {
     }
 
     val navController = rememberNavController()
+    val voltar: () -> Unit = { navController.popBackStack() }
+
     NavHost(
         navController = navController,
         startDestination = if (mainViewModel.autenticado) "home" else "login"
     ) {
         composable("login") {
             LoginScreen(onEntrar = {
-                navController.navigate("home") {
-                    popUpTo("login") { inclusive = true }
-                }
+                navController.navigate("home") { popUpTo("login") { inclusive = true } }
             })
         }
         composable("home") {
             HomeScreen(
-                onCarteiras = { navController.navigate("carteiras") },
+                onNavegar = { rota -> navController.navigate(rota) },
                 onSair = {
                     mainViewModel.sair {
-                        navController.navigate("login") {
-                            popUpTo("home") { inclusive = true }
-                        }
+                        navController.navigate("login") { popUpTo("home") { inclusive = true } }
                     }
                 }
             )
         }
-        composable("carteiras") {
-            CarteiraScreen(onVoltar = { navController.popBackStack() })
-        }
+        composable("carteiras") { CarteiraScreen(onVoltar = voltar) }
+        composable("categorias") { CategoriaScreen(onVoltar = voltar) }
+        composable("formas_pagamento") { FormaPagamentoScreen(onVoltar = voltar) }
+        composable("mercados") { MercadoScreen(onVoltar = voltar) }
+        composable("unidades_medida") { UnidadeMedidaScreen(onVoltar = voltar) }
+        composable("produtos") { ProdutoScreen(onVoltar = voltar) }
     }
 }
