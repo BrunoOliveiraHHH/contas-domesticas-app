@@ -21,6 +21,7 @@ fun HomeScreen(
     onSair: () -> Unit
 ) {
     val itens = listOf(
+        "Dashboard" to "dashboard",
         "Receitas" to "receitas",
         "Despesas" to "despesas",
         "Investimentos" to "investimentos",
