@@ -6,9 +6,11 @@ import br.com.contasdomesticas.app.data.remote.AuthApi
 import br.com.contasdomesticas.app.data.remote.AuthInterceptor
 import br.com.contasdomesticas.app.data.remote.CarteiraApi
 import br.com.contasdomesticas.app.data.remote.CategoriaApi
+import br.com.contasdomesticas.app.data.remote.DespesaApi
 import br.com.contasdomesticas.app.data.remote.FormaPagamentoApi
 import br.com.contasdomesticas.app.data.remote.MercadoApi
 import br.com.contasdomesticas.app.data.remote.ProdutoApi
+import br.com.contasdomesticas.app.data.remote.ReceitaApi
 import br.com.contasdomesticas.app.data.remote.UnidadeMedidaApi
 import br.com.contasdomesticas.app.data.remote.UsuarioApi
 import com.squareup.moshi.Moshi
@@ -105,4 +107,14 @@ object NetworkModule {
     @Singleton
     fun provideProdutoApi(retrofit: Retrofit): ProdutoApi =
         retrofit.create(ProdutoApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideReceitaApi(retrofit: Retrofit): ReceitaApi =
+        retrofit.create(ReceitaApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideDespesaApi(retrofit: Retrofit): DespesaApi =
+        retrofit.create(DespesaApi::class.java)
 }
