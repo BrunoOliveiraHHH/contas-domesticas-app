@@ -71,10 +71,10 @@ class RateioViewModel @Inject constructor(
             )
             runCatching { despesaRepository.ratear(despesaId, request) }
                 .onSuccess {
-                    estado = estado.copy(mensagem = "Despesa rateada")
+                    estado = estado.copy(mensagem = "Despesa dividida")
                     carregarAcerto(estado.periodo)
                 }
-                .onFailure { estado = estado.copy(erro = "Erro ao ratear") }
+                .onFailure { estado = estado.copy(erro = "Erro ao dividir") }
         }
     }
 

@@ -61,7 +61,7 @@ fun RateioScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Rateio") },
+                title = { Text("Divisao de despesas") },
                 navigationIcon = { IconButton(onClick = onVoltar) { Icon(Icons.Default.ArrowBack, contentDescription = "Voltar") } }
             )
         },
@@ -74,7 +74,7 @@ fun RateioScreen(
                 .padding(padding)
                 .padding(16.dp)
         ) {
-            Text("Ratear despesa (divisao igual)", fontWeight = FontWeight.Bold)
+            Text("Dividir despesa (partes iguais)", fontWeight = FontWeight.Bold)
             SelectField(
                 label = "despesa",
                 opcoes = estado.despesas,
@@ -104,7 +104,7 @@ fun RateioScreen(
                     }
                 },
                 modifier = Modifier.padding(top = 12.dp)
-            ) { Text("Ratear igualmente") }
+            ) { Text("Dividir igualmente") }
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 

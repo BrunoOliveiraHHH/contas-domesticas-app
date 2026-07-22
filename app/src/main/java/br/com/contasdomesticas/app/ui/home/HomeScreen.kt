@@ -55,7 +55,7 @@ private val FEATURES = listOf(
     Feature("Despesas", "despesas", Icons.Default.TrendingDown),
     Feature("Recorrencias", "recorrencias", Icons.Default.Autorenew),
     Feature("Parcelamento", "parcelamento", Icons.Default.CreditCard),
-    Feature("Rateio", "rateio", Icons.Default.Groups),
+    Feature("Divisao", "rateio", Icons.Default.Groups),
     Feature("Investimentos", "investimentos", Icons.Default.Savings),
     Feature("Listas de compra", "listas_compra", Icons.Default.ShoppingCart),
     Feature("Calculadoras", "calculadoras", Icons.Default.Calculate),
