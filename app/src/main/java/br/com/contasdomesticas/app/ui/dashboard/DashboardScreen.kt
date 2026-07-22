@@ -73,12 +73,12 @@ fun DashboardScreen(
                                 Text(c.categoriaNome, modifier = Modifier.weight(1f))
                                 Text("R$ %.2f".format(c.total), fontWeight = FontWeight.Medium)
                                 Text(
-                                    " ${(c.percentual * 100).toInt()}%",
+                                    " ${c.percentual.toInt()}%",
                                     modifier = Modifier.padding(start = 8.dp)
                                 )
                             }
                             LinearProgressIndicator(
-                                progress = { c.percentual.toFloat().coerceIn(0f, 1f) },
+                                progress = { (c.percentual / 100.0).toFloat().coerceIn(0f, 1f) },
                                 modifier = Modifier.fillMaxWidth().padding(top = 4.dp)
                             )
                         }
