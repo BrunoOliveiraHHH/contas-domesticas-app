@@ -36,6 +36,9 @@ import br.com.contasdomesticas.app.data.remote.dto.CarteiraDto
 import br.com.contasdomesticas.app.data.remote.dto.CategoriaDto
 import br.com.contasdomesticas.app.data.remote.dto.ReceitaRequestDto
 import br.com.contasdomesticas.app.ui.components.SelectField
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -89,9 +92,9 @@ private fun ReceitaDialog(
 ) {
     var descricao by remember { mutableStateOf("") }
     var valor by remember { mutableStateOf("") }
-    var dataCompetencia by remember { mutableStateOf("") }
     var carteira by remember { mutableStateOf<CarteiraDto?>(null) }
     var categoria by remember { mutableStateOf<CategoriaDto?>(null) }
+    val hoje = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
     AlertDialog(
         onDismissRequest = onCancelar,
@@ -101,20 +104,22 @@ private fun ReceitaDialog(
                 OutlinedTextField(
                     value = descricao,
                     onValueChange = { descricao = it },
-                    label = { Text("descricao") },
+                    label = { Text("nome") },
                     modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                )
+                SelectField(
+                    label = "categoria (salário, 13º, freelancer...)",
+                    opcoes = categorias,
+                    selecionado = categoria,
+                    rotulo = { it.nome },
+                    onSelecionar = { categoria = it },
+                    modifier = Modifier.padding(top = 8.dp)
                 )
                 OutlinedTextField(
                     value = valor,
                     onValueChange = { valor = it },
                     label = { Text("valor") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
-                )
-                OutlinedTextField(
-                    value = dataCompetencia,
-                    onValueChange = { dataCompetencia = it },
-                    label = { Text("dataCompetencia (AAAA-MM-DD)") },
                     modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
                 )
                 SelectField(
@@ -125,14 +130,6 @@ private fun ReceitaDialog(
                     onSelecionar = { carteira = it },
                     modifier = Modifier.padding(top = 8.dp)
                 )
-                SelectField(
-                    label = "categoria",
-                    opcoes = categorias,
-                    selecionado = categoria,
-                    rotulo = { it.nome },
-                    onSelecionar = { categoria = it },
-                    modifier = Modifier.padding(top = 8.dp)
-                )
             }
         },
         confirmButton = {
@@ -140,12 +137,12 @@ private fun ReceitaDialog(
                 val c = carteira
                 val cat = categoria
                 val v = valor.replace(',', '.').toDoubleOrNull()
-                if (descricao.isNotBlank() && v != null && dataCompetencia.isNotBlank() && c != null && cat != null) {
+                if (descricao.isNotBlank() && v != null && c != null && cat != null) {
                     onConfirmar(
                         ReceitaRequestDto(
                             descricao = descricao,
                             valor = v,
-                            dataCompetencia = dataCompetencia,
+                            dataCompetencia = hoje,
                             carteiraId = c.id,
                             categoriaId = cat.id
                         )
