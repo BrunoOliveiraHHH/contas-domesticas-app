@@ -82,6 +82,7 @@ class CompraRepository @Inject constructor(
     suspend fun itens(listaId: Long): List<ItemCompraDto> = api.itens(listaId)
     suspend fun adicionarItem(listaId: Long, request: ItemCompraRequestDto): ItemCompraDto =
         api.adicionarItem(listaId, request)
+    suspend fun reporEstoque(listaId: Long): List<ItemCompraDto> = api.reporEstoque(listaId)
     suspend fun escolher(itemId: Long, mercadoId: Long): ItemCompraDto =
         api.escolher(itemId, EscolhaEstabelecimentoRequestDto(mercadoId))
     suspend fun removerItem(itemId: Long) = api.removerItem(itemId)

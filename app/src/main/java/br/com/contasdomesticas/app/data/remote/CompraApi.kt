@@ -40,6 +40,9 @@ interface CompraApi {
     @POST("api/v1/listas-compra/{listaId}/itens")
     suspend fun adicionarItem(@Path("listaId") listaId: Long, @Body request: ItemCompraRequestDto): ItemCompraDto
 
+    @POST("api/v1/listas-compra/{listaId}/repor-estoque")
+    suspend fun reporEstoque(@Path("listaId") listaId: Long): List<ItemCompraDto>
+
     @PUT("api/v1/itens/{id}/escolha")
     suspend fun escolher(@Path("id") id: Long, @Body request: EscolhaEstabelecimentoRequestDto): ItemCompraDto
 

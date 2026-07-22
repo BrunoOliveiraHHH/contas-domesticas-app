@@ -82,6 +82,8 @@ private fun ProdutoDialog(
     var nome by remember { mutableStateOf("") }
     var descricao by remember { mutableStateOf("") }
     var codigoBarras by remember { mutableStateOf("") }
+    var estoqueMinimo by remember { mutableStateOf("0") }
+    var estoqueAtual by remember { mutableStateOf("0") }
 
     AlertDialog(
         onDismissRequest = onCancelar,
@@ -106,10 +108,34 @@ private fun ProdutoDialog(
                     label = { Text("codigoBarras") },
                     modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
                 )
+                OutlinedTextField(
+                    value = estoqueMinimo,
+                    onValueChange = { estoqueMinimo = it },
+                    label = { Text("estoque mínimo") },
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                )
+                OutlinedTextField(
+                    value = estoqueAtual,
+                    onValueChange = { estoqueAtual = it },
+                    label = { Text("estoque atual") },
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                )
             }
         },
         confirmButton = {
-            Button(onClick = { if (nome.isNotBlank()) onConfirmar(ProdutoRequestDto(nome = nome, descricao = descricao, codigoBarras = codigoBarras)) }) { Text("Salvar") }
+            Button(onClick = {
+                if (nome.isNotBlank()) {
+                    onConfirmar(
+                        ProdutoRequestDto(
+                            nome = nome,
+                            descricao = descricao,
+                            codigoBarras = codigoBarras,
+                            estoqueMinimo = estoqueMinimo.replace(',', '.').toDoubleOrNull(),
+                            estoqueAtual = estoqueAtual.replace(',', '.').toDoubleOrNull()
+                        )
+                    )
+                }
+            }) { Text("Salvar") }
         },
         dismissButton = { TextButton(onClick = onCancelar) { Text("Cancelar") } }
     )

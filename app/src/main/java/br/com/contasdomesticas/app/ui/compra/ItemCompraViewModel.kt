@@ -71,6 +71,14 @@ class ItemCompraViewModel @Inject constructor(
         }
     }
 
+    fun reporEstoque() {
+        viewModelScope.launch {
+            runCatching { compraRepository.reporEstoque(listaId) }
+                .onSuccess { carregar() }
+                .onFailure { estado = estado.copy(erro = "Erro ao repor estoque") }
+        }
+    }
+
     fun escolher(itemId: Long, mercadoId: Long) {
         viewModelScope.launch {
             runCatching { compraRepository.escolher(itemId, mercadoId) }

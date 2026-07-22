@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Inventory
 import androidx.compose.material.icons.filled.PriceChange
 import androidx.compose.material.icons.filled.Storefront
 import androidx.compose.material3.AlertDialog
@@ -63,7 +64,12 @@ fun ItemCompraScreen(
         topBar = {
             TopAppBar(
                 title = { Text("Itens da lista") },
-                navigationIcon = { IconButton(onClick = onVoltar) { Icon(Icons.Default.ArrowBack, contentDescription = "Voltar") } }
+                navigationIcon = { IconButton(onClick = onVoltar) { Icon(Icons.Default.ArrowBack, contentDescription = "Voltar") } },
+                actions = {
+                    IconButton(onClick = { viewModel.reporEstoque() }) {
+                        Icon(Icons.Default.Inventory, contentDescription = "Repor estoque")
+                    }
+                }
             )
         },
         floatingActionButton = {
