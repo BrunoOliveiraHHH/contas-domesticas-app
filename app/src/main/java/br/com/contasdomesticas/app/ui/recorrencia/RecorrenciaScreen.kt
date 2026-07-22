@@ -3,6 +3,7 @@ package br.com.contasdomesticas.app.ui.recorrencia
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -103,8 +104,10 @@ fun RecorrenciaScreen(
                         supportingContent = { Text("${item.tipo} · ${item.frequencia} · R$ %.2f".format(item.valor)) },
                         leadingContent = { AssistChip(onClick = {}, label = { Text(if (item.ativa) "ativa" else "inativa") }) },
                         trailingContent = {
-                            IconButton(onClick = { gerarAlvo = item }) { Icon(Icons.Default.PlayArrow, contentDescription = "Gerar") }
-                            IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
+                            Row {
+                                IconButton(onClick = { gerarAlvo = item }) { Icon(Icons.Default.PlayArrow, contentDescription = "Gerar") }
+                                IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
+                            }
                         }
                     )
                 }

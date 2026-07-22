@@ -1,6 +1,7 @@
 package br.com.contasdomesticas.app.ui.compra
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -102,9 +103,11 @@ fun ItemCompraScreen(
                             Text("Qtd ${item.quantidade} · ${nomeMercado(item.mercadoEscolhidoId)}$preco")
                         },
                         trailingContent = {
-                            IconButton(onClick = { escolhaAlvo = item }) { Icon(Icons.Default.Storefront, contentDescription = "Estabelecimento") }
-                            IconButton(onClick = { cotacaoAlvo = item }) { Icon(Icons.Default.PriceChange, contentDescription = "Cotacoes") }
-                            IconButton(onClick = { viewModel.removerItem(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
+                            Row {
+                                IconButton(onClick = { escolhaAlvo = item }) { Icon(Icons.Default.Storefront, contentDescription = "Estabelecimento") }
+                                IconButton(onClick = { cotacaoAlvo = item }) { Icon(Icons.Default.PriceChange, contentDescription = "Cotacoes") }
+                                IconButton(onClick = { viewModel.removerItem(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
+                            }
                         }
                     )
                 }

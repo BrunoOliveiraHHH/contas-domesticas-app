@@ -3,6 +3,7 @@ package br.com.contasdomesticas.app.ui.lancamento
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -102,10 +103,12 @@ fun DespesaScreen(
                     supportingContent = { Text("$cat · R$ %.2f · %s".format(item.valor, item.dataCompetencia)) },
                     leadingContent = { item.status?.let { AssistChip(onClick = {}, label = { Text(it) }) } },
                     trailingContent = {
-                        if (item.status != "PAGO") {
-                            IconButton(onClick = { viewModel.pagar(item.id) }) { Icon(Icons.Default.Check, contentDescription = "Pagar") }
+                        Row {
+                            if (item.status != "PAGO") {
+                                IconButton(onClick = { viewModel.pagar(item.id) }) { Icon(Icons.Default.Check, contentDescription = "Pagar") }
+                            }
+                            IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
                         }
-                        IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
                     }
                 )
                 }

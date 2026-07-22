@@ -3,6 +3,7 @@ package br.com.contasdomesticas.app.ui.investimento
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -95,8 +96,10 @@ fun InvestimentoScreen(
                         headlineContent = { Text(item.nome) },
                         supportingContent = { Text("${item.tipoInvestimento}${item.instituicao?.let { " · $it" } ?: ""}") },
                         trailingContent = {
-                            IconButton(onClick = { aporteAlvo = item }) { Icon(Icons.Default.Savings, contentDescription = "Aporte") }
-                            IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
+                            Row {
+                                IconButton(onClick = { aporteAlvo = item }) { Icon(Icons.Default.Savings, contentDescription = "Aporte") }
+                                IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
+                            }
                         }
                     )
                 }

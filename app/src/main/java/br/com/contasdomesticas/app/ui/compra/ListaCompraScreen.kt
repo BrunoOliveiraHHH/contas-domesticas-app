@@ -3,6 +3,7 @@ package br.com.contasdomesticas.app.ui.compra
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -101,12 +102,14 @@ fun ListaCompraScreen(
                         supportingContent = { Text("${item.tipo}${item.data?.let { " · $it" } ?: ""}") },
                         leadingContent = { AssistChip(onClick = {}, label = { Text(item.status) }) },
                         trailingContent = {
-                            IconButton(onClick = { onAbrirLista(item.id) }) { Icon(Icons.Default.ListAlt, contentDescription = "Itens") }
-                            IconButton(onClick = { viewModel.duplicar(item.id) }) { Icon(Icons.Default.ContentCopy, contentDescription = "Duplicar") }
-                            if (item.status == "ABERTA") {
-                                IconButton(onClick = { fecharAlvo = item }) { Icon(Icons.Default.PointOfSale, contentDescription = "Fechar") }
+                            Row {
+                                IconButton(onClick = { onAbrirLista(item.id) }) { Icon(Icons.Default.ListAlt, contentDescription = "Itens") }
+                                IconButton(onClick = { viewModel.duplicar(item.id) }) { Icon(Icons.Default.ContentCopy, contentDescription = "Duplicar") }
+                                if (item.status == "ABERTA") {
+                                    IconButton(onClick = { fecharAlvo = item }) { Icon(Icons.Default.PointOfSale, contentDescription = "Fechar") }
+                                }
+                                IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
                             }
-                            IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
                         }
                     )
                 }
