@@ -33,6 +33,8 @@ data class LancamentoEntity(
     val dataCompetencia: String,
     val dataVencimento: String?,
     val dataPagamento: String?,
+    val dataInicio: String?,
+    val dataFim: String?,
     val status: String?,
     val carteiraId: Long,
     val categoriaId: Long

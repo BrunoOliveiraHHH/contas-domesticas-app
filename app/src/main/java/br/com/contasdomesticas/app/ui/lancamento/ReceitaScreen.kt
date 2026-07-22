@@ -95,6 +95,8 @@ private fun ReceitaDialog(
     var carteira by remember { mutableStateOf<CarteiraDto?>(null) }
     var categoria by remember { mutableStateOf<CategoriaDto?>(null) }
     val hoje = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+    var dataInicio by remember { mutableStateOf(hoje) }
+    var dataFim by remember { mutableStateOf("") }
 
     AlertDialog(
         onDismissRequest = onCancelar,
@@ -130,6 +132,18 @@ private fun ReceitaDialog(
                     onSelecionar = { carteira = it },
                     modifier = Modifier.padding(top = 8.dp)
                 )
+                OutlinedTextField(
+                    value = dataInicio,
+                    onValueChange = { dataInicio = it },
+                    label = { Text("início (AAAA-MM-DD)") },
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                )
+                OutlinedTextField(
+                    value = dataFim,
+                    onValueChange = { dataFim = it },
+                    label = { Text("fim (vazio = sem prazo)") },
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                )
             }
         },
         confirmButton = {
@@ -137,14 +151,16 @@ private fun ReceitaDialog(
                 val c = carteira
                 val cat = categoria
                 val v = valor.replace(',', '.').toDoubleOrNull()
-                if (descricao.isNotBlank() && v != null && c != null && cat != null) {
+                if (descricao.isNotBlank() && v != null && c != null && cat != null && dataInicio.isNotBlank()) {
                     onConfirmar(
                         ReceitaRequestDto(
                             descricao = descricao,
                             valor = v,
-                            dataCompetencia = hoje,
+                            dataCompetencia = dataInicio,
                             carteiraId = c.id,
-                            categoriaId = cat.id
+                            categoriaId = cat.id,
+                            dataInicio = dataInicio,
+                            dataFim = dataFim.ifBlank { null }
                         )
                     )
                 }

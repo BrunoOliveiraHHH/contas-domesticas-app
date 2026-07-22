@@ -45,6 +45,8 @@ class ReceitaRepository @Inject constructor(
             dataCompetencia = request.dataCompetencia,
             dataVencimento = null,
             dataPagamento = null,
+            dataInicio = request.dataInicio,
+            dataFim = request.dataFim,
             status = "PENDENTE",
             carteiraId = request.carteiraId,
             categoriaId = request.categoriaId

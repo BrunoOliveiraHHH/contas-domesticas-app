@@ -11,8 +11,10 @@ fun CategoriaDto.toEntity() = CategoriaEntity(id, nome, tipo, ativa)
 fun CategoriaEntity.toDto() = CategoriaDto(id, nome, tipo, ativa)
 
 fun LancamentoDto.toEntity() = LancamentoEntity(
-    id, tipo, descricao, valor, dataCompetencia, dataVencimento, dataPagamento, status, carteiraId, categoriaId
+    id, tipo, descricao, valor, dataCompetencia, dataVencimento, dataPagamento,
+    dataInicio, dataFim, status, carteiraId, categoriaId
 )
 fun LancamentoEntity.toDto() = LancamentoDto(
-    id, tipo, descricao, valor, dataCompetencia, dataVencimento, dataPagamento, status, carteiraId, categoriaId
+    id, tipo, descricao, valor, dataCompetencia, dataVencimento, dataPagamento,
+    dataInicio, dataFim, status, carteiraId, categoriaId
 )
