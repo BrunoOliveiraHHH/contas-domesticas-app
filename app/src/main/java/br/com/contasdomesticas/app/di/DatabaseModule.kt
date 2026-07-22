@@ -5,6 +5,11 @@ import androidx.room.Room
 import br.com.contasdomesticas.app.data.local.AppDatabase
 import br.com.contasdomesticas.app.data.local.dao.AuditoriaDao
 import br.com.contasdomesticas.app.data.local.dao.UsuarioDao
+import br.com.contasdomesticas.app.data.local.db.CarteiraDao
+import br.com.contasdomesticas.app.data.local.db.CategoriaDao
+import br.com.contasdomesticas.app.data.local.db.LancamentoDao
+import br.com.contasdomesticas.app.data.local.db.ListaCompraDao
+import br.com.contasdomesticas.app.data.local.db.OutboxDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,4 +40,19 @@ object DatabaseModule {
 
     @Provides
     fun provideAuditoriaDao(database: AppDatabase): AuditoriaDao = database.auditoriaDao()
+
+    @Provides
+    fun provideCarteiraDao(database: AppDatabase): CarteiraDao = database.carteiraDao()
+
+    @Provides
+    fun provideCategoriaDao(database: AppDatabase): CategoriaDao = database.categoriaDao()
+
+    @Provides
+    fun provideLancamentoDao(database: AppDatabase): LancamentoDao = database.lancamentoDao()
+
+    @Provides
+    fun provideListaCompraDao(database: AppDatabase): ListaCompraDao = database.listaCompraDao()
+
+    @Provides
+    fun provideOutboxDao(database: AppDatabase): OutboxDao = database.outboxDao()
 }
