@@ -44,29 +44,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import br.com.contasdomesticas.app.R
 
-private data class Feature(val label: String, val rota: String, val icone: ImageVector)
+private data class Feature(val labelRes: Int, val rota: String, val icone: ImageVector)
 
 private val FEATURES = listOf(
-    Feature("Dashboard", "dashboard", Icons.Default.Dashboard),
-    Feature("Receitas", "receitas", Icons.Default.TrendingUp),
-    Feature("Despesas", "despesas", Icons.Default.TrendingDown),
-    Feature("Recorrencias", "recorrencias", Icons.Default.Autorenew),
-    Feature("Parcelamento", "parcelamento", Icons.Default.CreditCard),
-    Feature("Divisao", "rateio", Icons.Default.Groups),
-    Feature("Investimentos", "investimentos", Icons.Default.Savings),
-    Feature("Listas de compra", "listas_compra", Icons.Default.ShoppingCart),
-    Feature("Calculadoras", "calculadoras", Icons.Default.Calculate),
-    Feature("Carteiras", "carteiras", Icons.Default.AccountBalanceWallet),
-    Feature("Categorias", "categorias", Icons.Default.Category),
-    Feature("Formas de pagamento", "formas_pagamento", Icons.Default.Payments),
-    Feature("Mercados", "mercados", Icons.Default.Store),
-    Feature("Unidades", "unidades_medida", Icons.Default.Straighten),
-    Feature("Produtos", "produtos", Icons.Default.Inventory2),
-    Feature("Configuracao", "configuracao", Icons.Default.Settings),
-    Feature("Sincronizacao", "sincronizacao", Icons.Default.Sync)
+    Feature(R.string.nav_dashboard, "dashboard", Icons.Default.Dashboard),
+    Feature(R.string.nav_receitas, "receitas", Icons.Default.TrendingUp),
+    Feature(R.string.nav_despesas, "despesas", Icons.Default.TrendingDown),
+    Feature(R.string.nav_recorrencias, "recorrencias", Icons.Default.Autorenew),
+    Feature(R.string.nav_parcelamento, "parcelamento", Icons.Default.CreditCard),
+    Feature(R.string.nav_divisao, "rateio", Icons.Default.Groups),
+    Feature(R.string.nav_investimentos, "investimentos", Icons.Default.Savings),
+    Feature(R.string.nav_listas_compra, "listas_compra", Icons.Default.ShoppingCart),
+    Feature(R.string.nav_calculadoras, "calculadoras", Icons.Default.Calculate),
+    Feature(R.string.nav_carteiras, "carteiras", Icons.Default.AccountBalanceWallet),
+    Feature(R.string.nav_categorias, "categorias", Icons.Default.Category),
+    Feature(R.string.nav_formas_pagamento, "formas_pagamento", Icons.Default.Payments),
+    Feature(R.string.nav_mercados, "mercados", Icons.Default.Store),
+    Feature(R.string.nav_unidades, "unidades_medida", Icons.Default.Straighten),
+    Feature(R.string.nav_produtos, "produtos", Icons.Default.Inventory2),
+    Feature(R.string.nav_configuracao, "configuracao", Icons.Default.Settings),
+    Feature(R.string.nav_sincronizacao, "sincronizacao", Icons.Default.Sync)
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,7 +80,7 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Contas Domesticas", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.app_name), fontWeight = FontWeight.Bold) },
                 actions = {
                     IconButton(onClick = onSair) { Icon(Icons.Default.Logout, contentDescription = "Sair") }
                 },
@@ -125,7 +127,7 @@ private fun FeatureTile(feature: Feature, onClick: () -> Unit) {
                 modifier = Modifier.size(34.dp)
             )
             Text(
-                feature.label,
+                stringResource(feature.labelRes),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(top = 10.dp)

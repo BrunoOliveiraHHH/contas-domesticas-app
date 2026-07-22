@@ -60,7 +60,7 @@ fun ConfiguracaoScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Configuracao") },
+                title = { Text("Configuração") },
                 navigationIcon = { IconButton(onClick = onVoltar) { Icon(Icons.Default.ArrowBack, contentDescription = "Voltar") } }
             )
         },

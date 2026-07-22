@@ -1,3 +1,22 @@
 <resources>
-    <string name="app_name">Contas Domesticas</string>
+    <string name="app_name">Contas Domésticas</string>
+
+    <!-- Navegação / features -->
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_receitas">Receitas</string>
+    <string name="nav_despesas">Despesas</string>
+    <string name="nav_recorrencias">Recorrências</string>
+    <string name="nav_parcelamento">Parcelamento</string>
+    <string name="nav_divisao">Divisão</string>
+    <string name="nav_investimentos">Investimentos</string>
+    <string name="nav_listas_compra">Listas de compra</string>
+    <string name="nav_calculadoras">Calculadoras</string>
+    <string name="nav_carteiras">Carteiras</string>
+    <string name="nav_categorias">Categorias</string>
+    <string name="nav_formas_pagamento">Formas de pagamento</string>
+    <string name="nav_mercados">Mercados</string>
+    <string name="nav_unidades">Unidades</string>
+    <string name="nav_produtos">Produtos</string>
+    <string name="nav_configuracao">Configuração</string>
+    <string name="nav_sincronizacao">Sincronização</string>
 </resources>

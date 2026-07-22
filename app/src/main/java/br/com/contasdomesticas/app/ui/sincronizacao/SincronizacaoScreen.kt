@@ -52,7 +52,7 @@ fun SincronizacaoScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Sincronizacao") },
+                title = { Text("Sincronização") },
                 navigationIcon = { IconButton(onClick = onVoltar) { Icon(Icons.Default.ArrowBack, contentDescription = "Voltar") } }
             )
         },
