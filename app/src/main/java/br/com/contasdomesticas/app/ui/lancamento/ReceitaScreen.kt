@@ -62,9 +62,10 @@ fun ReceitaScreen(
     ) { padding ->
         LazyColumn(modifier = Modifier.fillMaxSize().padding(padding)) {
             items(estado.itens, key = { it.id }) { item ->
+                val cat = estado.categorias.find { it.id == item.categoriaId }?.nome ?: "-"
                 ListItem(
                     headlineContent = { Text(item.descricao) },
-                    supportingContent = { Text("R$ %.2f · %s".format(item.valor, item.dataCompetencia)) },
+                    supportingContent = { Text("$cat · R$ %.2f".format(item.valor)) },
                     trailingContent = {
                         IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
                     }

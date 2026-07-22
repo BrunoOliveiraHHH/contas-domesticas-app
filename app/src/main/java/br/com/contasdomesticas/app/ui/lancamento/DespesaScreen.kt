@@ -75,9 +75,10 @@ fun DespesaScreen(
     ) { padding ->
         LazyColumn(modifier = Modifier.fillMaxSize().padding(padding)) {
             items(estado.itens, key = { it.id }) { item ->
+                val cat = estado.categorias.find { it.id == item.categoriaId }?.nome ?: "-"
                 ListItem(
                     headlineContent = { Text(item.descricao) },
-                    supportingContent = { Text("R$ %.2f · %s".format(item.valor, item.dataCompetencia)) },
+                    supportingContent = { Text("$cat · R$ %.2f · %s".format(item.valor, item.dataCompetencia)) },
                     leadingContent = { item.status?.let { AssistChip(onClick = {}, label = { Text(it) }) } },
                     trailingContent = {
                         if (item.status != "PAGO") {
