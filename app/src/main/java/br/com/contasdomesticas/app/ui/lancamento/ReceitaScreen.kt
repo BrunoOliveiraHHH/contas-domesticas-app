@@ -34,8 +34,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.contasdomesticas.app.data.remote.dto.CarteiraDto
 import br.com.contasdomesticas.app.data.remote.dto.CategoriaDto
+import br.com.contasdomesticas.app.data.remote.dto.LancamentoDto
 import br.com.contasdomesticas.app.data.remote.dto.ReceitaRequestDto
+import br.com.contasdomesticas.app.ui.components.OpcaoOrdenacao
+import br.com.contasdomesticas.app.ui.components.OrdenacaoBar
 import br.com.contasdomesticas.app.ui.components.SelectField
+import br.com.contasdomesticas.app.ui.components.ordenar
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -49,6 +53,19 @@ fun ReceitaScreen(
     val estado = viewModel.estado
     var mostrarDialog by remember { mutableStateOf(false) }
 
+    var ordemIdx by remember { mutableStateOf(0) }
+    var asc by remember { mutableStateOf(true) }
+    val opcoes: List<OpcaoOrdenacao<LancamentoDto>> = remember(estado.categorias) {
+        val nomeCat = { id: Long -> estado.categorias.find { it.id == id }?.nome ?: "" }
+        listOf(
+            OpcaoOrdenacao("Nome", compareBy { it.descricao }),
+            OpcaoOrdenacao("Valor", compareBy { it.valor }),
+            OpcaoOrdenacao("Categoria", compareBy { nomeCat(it.categoriaId) }),
+            OpcaoOrdenacao("Início", compareBy { it.dataInicio ?: it.dataCompetencia })
+        )
+    }
+    val itens = estado.itens.ordenar(opcoes, ordemIdx, asc)
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -60,16 +77,19 @@ fun ReceitaScreen(
             FloatingActionButton(onClick = { mostrarDialog = true }) { Icon(Icons.Default.Add, contentDescription = "Nova") }
         }
     ) { padding ->
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(padding)) {
-            items(estado.itens, key = { it.id }) { item ->
-                val cat = estado.categorias.find { it.id == item.categoriaId }?.nome ?: "-"
-                ListItem(
-                    headlineContent = { Text(item.descricao) },
-                    supportingContent = { Text("$cat · R$ %.2f".format(item.valor)) },
-                    trailingContent = {
-                        IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
-                    }
-                )
+        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+            OrdenacaoBar(opcoes, ordemIdx, asc, { ordemIdx = it }, { asc = !asc })
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(itens, key = { it.id }) { item ->
+                    val cat = estado.categorias.find { it.id == item.categoriaId }?.nome ?: "-"
+                    ListItem(
+                        headlineContent = { Text(item.descricao) },
+                        supportingContent = { Text("$cat · R$ %.2f".format(item.valor)) },
+                        trailingContent = {
+                            IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
+                        }
+                    )
+                }
             }
         }
     }

@@ -43,7 +43,10 @@ import br.com.contasdomesticas.app.data.remote.dto.CarteiraDto
 import br.com.contasdomesticas.app.data.remote.dto.CategoriaDto
 import br.com.contasdomesticas.app.data.remote.dto.ListaCompraDto
 import br.com.contasdomesticas.app.data.remote.dto.ListaCompraRequestDto
+import br.com.contasdomesticas.app.ui.components.OpcaoOrdenacao
+import br.com.contasdomesticas.app.ui.components.OrdenacaoBar
 import br.com.contasdomesticas.app.ui.components.SelectField
+import br.com.contasdomesticas.app.ui.components.ordenar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,6 +68,18 @@ fun ListaCompraScreen(
         }
     }
 
+    var ordemIdx by remember { mutableStateOf(0) }
+    var asc by remember { mutableStateOf(true) }
+    val opcoes: List<OpcaoOrdenacao<ListaCompraDto>> = remember {
+        listOf(
+            OpcaoOrdenacao("Nome", compareBy { it.nome }),
+            OpcaoOrdenacao("Tipo", compareBy { it.tipo }),
+            OpcaoOrdenacao("Status", compareBy { it.status }),
+            OpcaoOrdenacao("Data", compareBy { it.data ?: "" })
+        )
+    }
+    val itens = estado.itens.ordenar(opcoes, ordemIdx, asc)
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -77,21 +92,24 @@ fun ListaCompraScreen(
             FloatingActionButton(onClick = { mostrarDialog = true }) { Icon(Icons.Default.Add, contentDescription = "Nova") }
         }
     ) { padding ->
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(padding)) {
-            items(estado.itens, key = { it.id }) { item ->
-                ListItem(
-                    headlineContent = { Text(item.nome) },
-                    supportingContent = { Text("${item.tipo}${item.data?.let { " · $it" } ?: ""}") },
-                    leadingContent = { AssistChip(onClick = {}, label = { Text(item.status) }) },
-                    trailingContent = {
-                        IconButton(onClick = { onAbrirLista(item.id) }) { Icon(Icons.Default.ListAlt, contentDescription = "Itens") }
-                        IconButton(onClick = { viewModel.duplicar(item.id) }) { Icon(Icons.Default.ContentCopy, contentDescription = "Duplicar") }
-                        if (item.status == "ABERTA") {
-                            IconButton(onClick = { fecharAlvo = item }) { Icon(Icons.Default.PointOfSale, contentDescription = "Fechar") }
+        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+            OrdenacaoBar(opcoes, ordemIdx, asc, { ordemIdx = it }, { asc = !asc })
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(itens, key = { it.id }) { item ->
+                    ListItem(
+                        headlineContent = { Text(item.nome) },
+                        supportingContent = { Text("${item.tipo}${item.data?.let { " · $it" } ?: ""}") },
+                        leadingContent = { AssistChip(onClick = {}, label = { Text(item.status) }) },
+                        trailingContent = {
+                            IconButton(onClick = { onAbrirLista(item.id) }) { Icon(Icons.Default.ListAlt, contentDescription = "Itens") }
+                            IconButton(onClick = { viewModel.duplicar(item.id) }) { Icon(Icons.Default.ContentCopy, contentDescription = "Duplicar") }
+                            if (item.status == "ABERTA") {
+                                IconButton(onClick = { fecharAlvo = item }) { Icon(Icons.Default.PointOfSale, contentDescription = "Fechar") }
+                            }
+                            IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
                         }
-                        IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
-                    }
-                )
+                    )
+                }
             }
         }
     }

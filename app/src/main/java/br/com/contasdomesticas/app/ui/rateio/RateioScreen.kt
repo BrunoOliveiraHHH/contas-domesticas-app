@@ -35,8 +35,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import br.com.contasdomesticas.app.data.remote.dto.AcertoItemDto
 import br.com.contasdomesticas.app.data.remote.dto.LancamentoDto
+import br.com.contasdomesticas.app.ui.components.OpcaoOrdenacao
+import br.com.contasdomesticas.app.ui.components.OrdenacaoBar
 import br.com.contasdomesticas.app.ui.components.SelectField
+import br.com.contasdomesticas.app.ui.components.ordenar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,6 +53,16 @@ fun RateioScreen(
     val selecionados = remember { mutableStateListOf<Long>() }
     var periodo by remember { mutableStateOf(estado.periodo) }
     val snackbar = remember { SnackbarHostState() }
+
+    var ordemAcerto by remember { mutableStateOf(0) }
+    var ascAcerto by remember { mutableStateOf(true) }
+    val opcoesAcerto: List<OpcaoOrdenacao<AcertoItemDto>> = remember {
+        listOf(
+            OpcaoOrdenacao("Usuário", compareBy { it.usuarioLogin ?: "" }),
+            OpcaoOrdenacao("Valor", compareBy { it.total })
+        )
+    }
+    val acertoOrdenado = estado.acerto.ordenar(opcoesAcerto, ordemAcerto, ascAcerto)
 
     LaunchedEffect(estado.mensagem, estado.erro) {
         val msg = estado.mensagem ?: estado.erro
@@ -119,7 +133,10 @@ fun RateioScreen(
                 onClick = { viewModel.carregarAcerto(periodo) },
                 modifier = Modifier.padding(top = 8.dp)
             ) { Text("Ver acerto") }
-            estado.acerto.forEach { item ->
+            if (estado.acerto.isNotEmpty()) {
+                OrdenacaoBar(opcoesAcerto, ordemAcerto, ascAcerto, { ordemAcerto = it }, { ascAcerto = !ascAcerto })
+            }
+            acertoOrdenado.forEach { item ->
                 ListItem(
                     headlineContent = { Text(item.usuarioLogin ?: "#${item.usuarioId}") },
                     trailingContent = {

@@ -30,6 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.material3.AlertDialog
+import br.com.contasdomesticas.app.data.remote.dto.CarteiraDto
+import br.com.contasdomesticas.app.ui.components.OpcaoOrdenacao
+import br.com.contasdomesticas.app.ui.components.OrdenacaoBar
+import br.com.contasdomesticas.app.ui.components.ordenar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,6 +43,17 @@ fun CarteiraScreen(
 ) {
     val estado = viewModel.estado
     var mostrarDialog by remember { mutableStateOf(false) }
+
+    var ordemIdx by remember { mutableStateOf(0) }
+    var asc by remember { mutableStateOf(true) }
+    val opcoes: List<OpcaoOrdenacao<CarteiraDto>> = remember {
+        listOf(
+            OpcaoOrdenacao("Nome", compareBy { it.nome }),
+            OpcaoOrdenacao("Tipo", compareBy { it.tipo }),
+            OpcaoOrdenacao("Saldo inicial", compareBy { it.saldoInicial ?: 0.0 })
+        )
+    }
+    val itens = estado.itens.ordenar(opcoes, ordemIdx, asc)
 
     Scaffold(
         topBar = {
@@ -55,17 +70,20 @@ fun CarteiraScreen(
             }
         }
     ) { padding ->
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(padding)) {
-            items(estado.itens, key = { it.id }) { carteira ->
-                ListItem(
-                    headlineContent = { Text(carteira.nome) },
-                    supportingContent = { Text(carteira.tipo) },
-                    trailingContent = {
-                        IconButton(onClick = { viewModel.remover(carteira.id) }) {
-                            Icon(Icons.Default.Delete, contentDescription = "Remover")
+        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+            OrdenacaoBar(opcoes, ordemIdx, asc, { ordemIdx = it }, { asc = !asc })
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(itens, key = { it.id }) { carteira ->
+                    ListItem(
+                        headlineContent = { Text(carteira.nome) },
+                        supportingContent = { Text("${carteira.tipo} · R$ %.2f".format(carteira.saldoInicial ?: 0.0)) },
+                        trailingContent = {
+                            IconButton(onClick = { viewModel.remover(carteira.id) }) {
+                                Icon(Icons.Default.Delete, contentDescription = "Remover")
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     }

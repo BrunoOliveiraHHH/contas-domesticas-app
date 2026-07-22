@@ -31,7 +31,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import br.com.contasdomesticas.app.data.remote.dto.ProdutoDto
 import br.com.contasdomesticas.app.data.remote.dto.ProdutoRequestDto
+import br.com.contasdomesticas.app.ui.components.OpcaoOrdenacao
+import br.com.contasdomesticas.app.ui.components.OrdenacaoBar
+import br.com.contasdomesticas.app.ui.components.ordenar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,6 +45,18 @@ fun ProdutoScreen(
 ) {
     val estado = viewModel.estado
     var mostrarDialog by remember { mutableStateOf(false) }
+
+    var ordemIdx by remember { mutableStateOf(0) }
+    var asc by remember { mutableStateOf(true) }
+    val opcoes: List<OpcaoOrdenacao<ProdutoDto>> = remember {
+        listOf(
+            OpcaoOrdenacao("Nome", compareBy { it.nome }),
+            OpcaoOrdenacao("Estoque atual", compareBy { it.estoqueAtual ?: 0.0 }),
+            OpcaoOrdenacao("Estoque mínimo", compareBy { it.estoqueMinimo ?: 0.0 }),
+            OpcaoOrdenacao("A comprar", compareBy { maxOf(0.0, (it.estoqueMinimo ?: 0.0) - (it.estoqueAtual ?: 0.0)) })
+        )
+    }
+    val itens = estado.itens.ordenar(opcoes, ordemIdx, asc)
 
     Scaffold(
         topBar = {
@@ -53,14 +69,29 @@ fun ProdutoScreen(
             FloatingActionButton(onClick = { mostrarDialog = true }) { Icon(Icons.Default.Add, contentDescription = "Novo") }
         }
     ) { padding ->
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(padding)) {
-            items(estado.itens, key = { it.id }) { item ->
-                ListItem(
-                    headlineContent = { Text(item.nome) },
-                    trailingContent = {
-                        IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
-                    }
-                )
+        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+            OrdenacaoBar(opcoes, ordemIdx, asc, { ordemIdx = it }, { asc = !asc })
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(itens, key = { it.id }) { item ->
+                    val min = item.estoqueMinimo ?: 0.0
+                    val atual = item.estoqueAtual ?: 0.0
+                    val comprar = maxOf(0.0, min - atual)
+                    ListItem(
+                        headlineContent = { Text(item.nome) },
+                        supportingContent = {
+                            Text(
+                                "Estoque %.0f/%.0f%s".format(
+                                    atual,
+                                    min,
+                                    if (comprar > 0) " · comprar %.0f".format(comprar) else ""
+                                )
+                            )
+                        },
+                        trailingContent = {
+                            IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
+                        }
+                    )
+                }
             }
         }
     }

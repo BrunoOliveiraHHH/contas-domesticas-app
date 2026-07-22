@@ -39,7 +39,10 @@ import br.com.contasdomesticas.app.data.remote.dto.AporteRequestDto
 import br.com.contasdomesticas.app.data.remote.dto.CarteiraDto
 import br.com.contasdomesticas.app.data.remote.dto.InvestimentoDto
 import br.com.contasdomesticas.app.data.remote.dto.InvestimentoRequestDto
+import br.com.contasdomesticas.app.ui.components.OpcaoOrdenacao
+import br.com.contasdomesticas.app.ui.components.OrdenacaoBar
 import br.com.contasdomesticas.app.ui.components.SelectField
+import br.com.contasdomesticas.app.ui.components.ordenar
 
 private val TIPOS_INVESTIMENTO = listOf(
     "RENDA_FIXA", "RENDA_VARIAVEL", "FUNDO", "CRIPTO", "PREVIDENCIA", "POUPANCA", "RESERVA_EMERGENCIA"
@@ -55,6 +58,19 @@ fun InvestimentoScreen(
     val estado = viewModel.estado
     var mostrarDialog by remember { mutableStateOf(false) }
     var aporteAlvo by remember { mutableStateOf<InvestimentoDto?>(null) }
+
+    var ordemIdx by remember { mutableStateOf(0) }
+    var asc by remember { mutableStateOf(true) }
+    val opcoes: List<OpcaoOrdenacao<InvestimentoDto>> = remember {
+        listOf(
+            OpcaoOrdenacao("Nome", compareBy { it.nome }),
+            OpcaoOrdenacao("Tipo", compareBy { it.tipoInvestimento }),
+            OpcaoOrdenacao("Instituição", compareBy { it.instituicao ?: "" }),
+            OpcaoOrdenacao("Taxa", compareBy { it.taxaContratada ?: 0.0 }),
+            OpcaoOrdenacao("Aplicação", compareBy { it.dataAplicacao })
+        )
+    }
+    val itens = estado.itens.ordenar(opcoes, ordemIdx, asc)
 
     Scaffold(
         topBar = {
@@ -72,8 +88,9 @@ fun InvestimentoScreen(
                 "Patrimonio: R$ %.2f".format(estado.patrimonio),
                 modifier = Modifier.padding(16.dp)
             )
+            OrdenacaoBar(opcoes, ordemIdx, asc, { ordemIdx = it }, { asc = !asc })
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(estado.itens, key = { it.id }) { item ->
+                items(itens, key = { it.id }) { item ->
                     ListItem(
                         headlineContent = { Text(item.nome) },
                         supportingContent = { Text("${item.tipoInvestimento}${item.instituicao?.let { " · $it" } ?: ""}") },

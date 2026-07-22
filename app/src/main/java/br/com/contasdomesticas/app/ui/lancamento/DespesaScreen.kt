@@ -41,7 +41,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.contasdomesticas.app.data.remote.dto.CarteiraDto
 import br.com.contasdomesticas.app.data.remote.dto.CategoriaDto
+import br.com.contasdomesticas.app.data.remote.dto.LancamentoDto
+import br.com.contasdomesticas.app.ui.components.OpcaoOrdenacao
+import br.com.contasdomesticas.app.ui.components.OrdenacaoBar
 import br.com.contasdomesticas.app.ui.components.SelectField
+import br.com.contasdomesticas.app.ui.components.ordenar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,6 +65,21 @@ fun DespesaScreen(
         }
     }
 
+    var ordemIdx by remember { mutableStateOf(0) }
+    var asc by remember { mutableStateOf(true) }
+    val opcoes: List<OpcaoOrdenacao<LancamentoDto>> = remember(estado.categorias) {
+        val nomeCat = { id: Long -> estado.categorias.find { it.id == id }?.nome ?: "" }
+        val ordemStatus = mapOf("ATRASADO" to 0, "PENDENTE" to 1, "PAGO" to 2)
+        listOf(
+            OpcaoOrdenacao("Nome", compareBy { it.descricao }),
+            OpcaoOrdenacao("Valor", compareBy { it.valor }),
+            OpcaoOrdenacao("Vencimento", compareBy { it.dataVencimento ?: "" }),
+            OpcaoOrdenacao("Status", compareBy { ordemStatus[it.status ?: ""] ?: 9 }),
+            OpcaoOrdenacao("Categoria", compareBy { nomeCat(it.categoriaId) })
+        )
+    }
+    val itens = estado.itens.ordenar(opcoes, ordemIdx, asc)
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -73,9 +92,11 @@ fun DespesaScreen(
             FloatingActionButton(onClick = { mostrarDialog = true }) { Icon(Icons.Default.Add, contentDescription = "Nova") }
         }
     ) { padding ->
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(padding)) {
-            items(estado.itens, key = { it.id }) { item ->
-                val cat = estado.categorias.find { it.id == item.categoriaId }?.nome ?: "-"
+        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+            OrdenacaoBar(opcoes, ordemIdx, asc, { ordemIdx = it }, { asc = !asc })
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(itens, key = { it.id }) { item ->
+                    val cat = estado.categorias.find { it.id == item.categoriaId }?.nome ?: "-"
                 ListItem(
                     headlineContent = { Text(item.descricao) },
                     supportingContent = { Text("$cat · R$ %.2f · %s".format(item.valor, item.dataCompetencia)) },
@@ -87,6 +108,7 @@ fun DespesaScreen(
                         IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
                     }
                 )
+                }
             }
         }
     }

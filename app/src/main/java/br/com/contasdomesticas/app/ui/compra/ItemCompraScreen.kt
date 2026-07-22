@@ -44,7 +44,10 @@ import br.com.contasdomesticas.app.data.remote.dto.ItemCompraRequestDto
 import br.com.contasdomesticas.app.data.remote.dto.MercadoDto
 import br.com.contasdomesticas.app.data.remote.dto.ProdutoDto
 import br.com.contasdomesticas.app.data.remote.dto.UnidadeMedidaDto
+import br.com.contasdomesticas.app.ui.components.OpcaoOrdenacao
+import br.com.contasdomesticas.app.ui.components.OrdenacaoBar
 import br.com.contasdomesticas.app.ui.components.SelectField
+import br.com.contasdomesticas.app.ui.components.ordenar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,6 +62,18 @@ fun ItemCompraScreen(
 
     fun nomeMercado(id: Long?): String =
         id?.let { m -> estado.mercados.find { it.id == m }?.nome ?: "#$m" } ?: "-"
+
+    var ordemIdx by remember { mutableStateOf(0) }
+    var asc by remember { mutableStateOf(true) }
+    val opcoes: List<OpcaoOrdenacao<ItemCompraDto>> = remember {
+        listOf(
+            OpcaoOrdenacao("Produto", compareBy { it.produtoNome ?: "" }),
+            OpcaoOrdenacao("Quantidade", compareBy { it.quantidade }),
+            OpcaoOrdenacao("Preço", compareBy { it.precoUnitario ?: 0.0 }),
+            OpcaoOrdenacao("Comprado", compareBy { it.comprado })
+        )
+    }
+    val itens = estado.itens.ordenar(opcoes, ordemIdx, asc)
 
     Scaffold(
         topBar = {
@@ -76,20 +91,23 @@ fun ItemCompraScreen(
             FloatingActionButton(onClick = { mostrarDialog = true }) { Icon(Icons.Default.Add, contentDescription = "Item") }
         }
     ) { padding ->
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(padding)) {
-            items(estado.itens, key = { it.id }) { item ->
-                ListItem(
-                    headlineContent = { Text(item.produtoNome ?: "#${item.produtoId}") },
-                    supportingContent = {
-                        val preco = item.precoUnitario?.let { " · R$ %.2f".format(it) } ?: ""
-                        Text("Qtd ${item.quantidade} · ${nomeMercado(item.mercadoEscolhidoId)}$preco")
-                    },
-                    trailingContent = {
-                        IconButton(onClick = { escolhaAlvo = item }) { Icon(Icons.Default.Storefront, contentDescription = "Estabelecimento") }
-                        IconButton(onClick = { cotacaoAlvo = item }) { Icon(Icons.Default.PriceChange, contentDescription = "Cotacoes") }
-                        IconButton(onClick = { viewModel.removerItem(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
-                    }
-                )
+        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+            OrdenacaoBar(opcoes, ordemIdx, asc, { ordemIdx = it }, { asc = !asc })
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(itens, key = { it.id }) { item ->
+                    ListItem(
+                        headlineContent = { Text(item.produtoNome ?: "#${item.produtoId}") },
+                        supportingContent = {
+                            val preco = item.precoUnitario?.let { " · R$ %.2f".format(it) } ?: ""
+                            Text("Qtd ${item.quantidade} · ${nomeMercado(item.mercadoEscolhidoId)}$preco")
+                        },
+                        trailingContent = {
+                            IconButton(onClick = { escolhaAlvo = item }) { Icon(Icons.Default.Storefront, contentDescription = "Estabelecimento") }
+                            IconButton(onClick = { cotacaoAlvo = item }) { Icon(Icons.Default.PriceChange, contentDescription = "Cotacoes") }
+                            IconButton(onClick = { viewModel.removerItem(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
+                        }
+                    )
+                }
             }
         }
     }

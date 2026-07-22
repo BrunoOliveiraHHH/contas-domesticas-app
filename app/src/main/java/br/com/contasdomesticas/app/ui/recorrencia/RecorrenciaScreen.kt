@@ -43,7 +43,10 @@ import br.com.contasdomesticas.app.data.remote.dto.CarteiraDto
 import br.com.contasdomesticas.app.data.remote.dto.CategoriaDto
 import br.com.contasdomesticas.app.data.remote.dto.RecorrenciaDto
 import br.com.contasdomesticas.app.data.remote.dto.RecorrenciaRequestDto
+import br.com.contasdomesticas.app.ui.components.OpcaoOrdenacao
+import br.com.contasdomesticas.app.ui.components.OrdenacaoBar
 import br.com.contasdomesticas.app.ui.components.SelectField
+import br.com.contasdomesticas.app.ui.components.ordenar
 
 private val FREQUENCIAS = listOf("SEMANAL", "MENSAL", "ANUAL")
 
@@ -66,6 +69,19 @@ fun RecorrenciaScreen(
         }
     }
 
+    var ordemIdx by remember { mutableStateOf(0) }
+    var asc by remember { mutableStateOf(true) }
+    val opcoes: List<OpcaoOrdenacao<RecorrenciaDto>> = remember {
+        listOf(
+            OpcaoOrdenacao("Nome", compareBy { it.descricao }),
+            OpcaoOrdenacao("Tipo", compareBy { it.tipo }),
+            OpcaoOrdenacao("Valor", compareBy { it.valor }),
+            OpcaoOrdenacao("Frequência", compareBy { it.frequencia }),
+            OpcaoOrdenacao("Ativa", compareBy { it.ativa })
+        )
+    }
+    val itens = estado.itens.ordenar(opcoes, ordemIdx, asc)
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -78,17 +94,20 @@ fun RecorrenciaScreen(
             FloatingActionButton(onClick = { mostrarDialog = true }) { Icon(Icons.Default.Add, contentDescription = "Nova") }
         }
     ) { padding ->
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(padding)) {
-            items(estado.itens, key = { it.id }) { item ->
-                ListItem(
-                    headlineContent = { Text(item.descricao) },
-                    supportingContent = { Text("${item.tipo} · ${item.frequencia} · R$ %.2f".format(item.valor)) },
-                    leadingContent = { AssistChip(onClick = {}, label = { Text(if (item.ativa) "ativa" else "inativa") }) },
-                    trailingContent = {
-                        IconButton(onClick = { gerarAlvo = item }) { Icon(Icons.Default.PlayArrow, contentDescription = "Gerar") }
-                        IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
-                    }
-                )
+        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+            OrdenacaoBar(opcoes, ordemIdx, asc, { ordemIdx = it }, { asc = !asc })
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(itens, key = { it.id }) { item ->
+                    ListItem(
+                        headlineContent = { Text(item.descricao) },
+                        supportingContent = { Text("${item.tipo} · ${item.frequencia} · R$ %.2f".format(item.valor)) },
+                        leadingContent = { AssistChip(onClick = {}, label = { Text(if (item.ativa) "ativa" else "inativa") }) },
+                        trailingContent = {
+                            IconButton(onClick = { gerarAlvo = item }) { Icon(Icons.Default.PlayArrow, contentDescription = "Gerar") }
+                            IconButton(onClick = { viewModel.remover(item.id) }) { Icon(Icons.Default.Delete, contentDescription = "Remover") }
+                        }
+                    )
+                }
             }
         }
     }
