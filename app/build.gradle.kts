@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +7,15 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.kover)
 }
+
+// Variaveis de ambiente do .env na raiz do projeto do app (nao versionado).
+// Ex.: API_BASE_URL=http://192.168.0.7:8080/  (IP do host na rede para o tablet)
+val dotenv = Properties().apply {
+    val f = rootProject.file(".env")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+fun env(key: String, default: String): String =
+    dotenv.getProperty(key) ?: System.getenv(key) ?: default
 
 android {
     namespace = "br.com.contasdomesticas.app"
@@ -22,7 +33,11 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "API_BASE_URL", "\"http://192.168.0.7:8080/\"")
+            buildConfigField(
+                "String",
+                "API_BASE_URL",
+                "\"${env("API_BASE_URL", "http://10.0.2.2:8080/")}\""
+            )
         }
         release {
             isMinifyEnabled = true

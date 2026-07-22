@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Override apenas para builds DEBUG: permite HTTP (cleartext) para qualquer host,
+  de modo que o IP do host possa vir do .env sem precisar listar aqui.
+  A config de release (src/main) continua estrita (somente HTTPS).
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

@@ -69,7 +69,7 @@ fun RecorrenciaScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Recorrências") },
+                title = { Text("Assinaturas") },
                 navigationIcon = { IconButton(onClick = onVoltar) { Icon(Icons.Default.ArrowBack, contentDescription = "Voltar") } }
             )
         },

@@ -3,12 +3,11 @@
     <!-- Padrao: proibe trafego em texto puro (HTTP) em todo o app. -->
     <base-config cleartextTrafficPermitted="false" />
 
-    <!-- Excecao apenas para desenvolvimento local (emulador/host/rede local). -->
+    <!-- Excecao apenas para desenvolvimento local (emulador/host).
+         Para tablet fisico na rede, o build de DEBUG usa src/debug (cleartext liberado). -->
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">10.0.2.2</domain>
         <domain includeSubdomains="true">localhost</domain>
         <domain includeSubdomains="true">127.0.0.1</domain>
-        <!-- IP do host na rede local (tablet fisico) -->
-        <domain includeSubdomains="true">192.168.0.7</domain>
     </domain-config>
 </network-security-config>

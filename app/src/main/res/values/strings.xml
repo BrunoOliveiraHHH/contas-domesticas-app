@@ -5,7 +5,7 @@
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_receitas">Receitas</string>
     <string name="nav_despesas">Despesas</string>
-    <string name="nav_recorrencias">Recorrências</string>
+    <string name="nav_recorrencias">Assinaturas</string>
     <string name="nav_parcelamento">Parcelamento</string>
     <string name="nav_divisao">Divisão</string>
     <string name="nav_investimentos">Investimentos</string>
